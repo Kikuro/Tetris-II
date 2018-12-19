@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
+#include <windows.h>
 using namespace sf;
 
 const int M = 20;
@@ -33,7 +34,7 @@ bool check()
 
 int main()
 {
-    srand(time(0));	 
+    srand(time(0));
 
 	RenderWindow window(VideoMode(320, 480), "The Game!");
 
@@ -45,7 +46,7 @@ int main()
 	Sprite s(t1), background(t2), frame(t3);
 
     int dx=0; bool rotate=0; int colorNum=1;
-	float timer=0,delay=0.3; 
+	float timer=0,delay=0.3;
 
 	Clock clock;
 
@@ -123,10 +124,20 @@ int main()
 
     dx=0; rotate=0; delay=0.3;
 
+    /////////game over//////////
+    for(int i=N-1; i>0;i--)
+    {
+        if(field[1][i])
+        {
+            Sleep(5000);
+            window.close();
+        }
+    }
+
     /////////draw//////////
-    window.clear(Color::White);	
+    window.clear(Color::White);
     window.draw(background);
-		  
+
 	for (int i=0;i<M;i++)
 	 for (int j=0;j<N;j++)
 	   {
