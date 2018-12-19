@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <cstdio>
+#include <string>
 
 using namespace sf;
 using namespace std;
@@ -64,6 +66,12 @@ void outFile(long double score)
 int main()
 {
     srand(time(0));
+
+    Font f1;
+    f1.loadFromFile("arial.ttf");
+    Text text;
+    text.setFont(f1);
+    text.setFillColor(Color::Black);
 
     long double highScore = inFile();
     long double score = 0;
@@ -172,6 +180,41 @@ int main()
     /////////draw//////////
     window.clear(Color::White);
     window.draw(background);
+
+    for(int i=0;i<4;i++)
+    {
+        if(i==0)
+        {
+            text.setString("Highscore:");
+            text.setCharacterSize(13);
+            text.setPosition(235.f,15.f);
+            text.setStyle(Text::Bold);
+        }
+        if(i==1)
+        {
+            unsigned int hScore = static_cast<unsigned int>(highScore);
+            string _str = to_string(hScore);
+            text.setString(_str);
+            text.setCharacterSize(12);
+            text.setPosition(235.f,30.f);
+        }
+        if(i==2)
+        {
+            text.setString("Score:");
+            text.setCharacterSize(13);
+            text.setPosition(235.f,45.f);
+            text.setStyle(Text::Bold);
+        }
+        if(i==3)
+        {
+            unsigned int Score = static_cast<unsigned int>(score);
+            string _str = to_string(Score);
+            text.setString(_str);
+            text.setCharacterSize(12);
+            text.setPosition(235.f,60.f);
+        }
+        window.draw(text);
+    }
 
 	for (int i=0;i<M;i++)
 	 for (int j=0;j<N;j++)
