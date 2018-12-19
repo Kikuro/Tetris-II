@@ -1,7 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <windows.h>
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+
 using namespace sf;
+using namespace std;
 
 const int M = 20;
 const int N = 10;
@@ -31,10 +36,37 @@ bool check()
    return 1;
 };
 
+long double inFile()
+{
+    fstream plik;
+    plik.open("score.KRap", ios::in);
+    string dane;
+    if(plik.good() == true)
+    {
+        getline(plik,dane);
+        long double highScore = atof(dane.c_str());
+        return highScore;
+    }
+    else
+        return 0;
+    plik.close();
+}
+
+void outFile(long double score)
+{
+    fstream plik;
+    plik.open("score.KRap", ios::out);
+    plik<<score;
+    plik.close();
+}
+
 
 int main()
 {
     srand(time(0));
+
+    long double highScore = inFile();
+    long double score = 0;
 
 	RenderWindow window(VideoMode(320, 480), "The Game!");
 
@@ -120,6 +152,7 @@ int main()
 		    field[k][j]=field[i][j];
 		}
 		if (count<N) k--;
+		if(count>=N) score+=10;
 	}
 
     dx=0; rotate=0; delay=0.3;
@@ -129,6 +162,8 @@ int main()
     {
         if(field[1][i])
         {
+            if(score>=highScore)
+                outFile(score);
             Sleep(5000);
             window.close();
         }
